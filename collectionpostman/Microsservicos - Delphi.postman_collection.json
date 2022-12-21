@@ -1,0 +1,741 @@
+{
+	"info": {
+		"_postman_id": "5553756a-253f-4e0e-a08a-26b4f9ef0a5c",
+		"name": "Microsservicos - Delphi",
+		"description": "Api de pedidos de vendas desenvolvidos dentro do treinamento de Construindo Arquitetura de Micros Serviços com Alta Disponibilidades",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "6534620"
+	},
+	"item": [
+		{
+			"name": "user-api",
+			"item": [
+				{
+					"name": "Cadastrar Usuario",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nome\": \"joao\",\r\n    \"email\": \"joao@email.com\",\r\n    \"senha\": \"123\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URLAutenticacao}}/usuarios",
+							"host": [
+								"{{URLAutenticacao}}"
+							],
+							"path": [
+								"usuarios"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let jsonData = JSON.parse(responseBody);\r",
+									"pm.collectionVariables.set(\"token\", jsonData.token);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nome\": \"joao\",\r\n    \"senha\": \"123\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URLAutenticacao}}/usuarios/login",
+							"host": [
+								"{{URLAutenticacao}}"
+							],
+							"path": [
+								"usuarios",
+								"login"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "API usada para cadastrar usuários e trabalhar com a autenticação usando o padrão JWT.\n\nMicroservice de Autentição"
+		},
+		{
+			"name": "cadastros-api",
+			"item": [
+				{
+					"name": "produtos",
+					"item": [
+						{
+							"name": "Listar todos",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{URLCadastro}}/produtos",
+									"host": [
+										"{{URLCadastro}}"
+									],
+									"path": [
+										"produtos"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Listar por código",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{URLCadastro}}/produtos/1",
+									"host": [
+										"{{URLCadastro}}"
+									],
+									"path": [
+										"produtos",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Listar por Categoria",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2NzA1MDcxMzYsImV4cCI6MTY3MDUxMDczNn0.cFdJTZDSBDxNtNwV-8nm39DGYb9JeZDlGnHRc3kyF98",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{URLCadastro}}/produtos/8/categoria",
+									"host": [
+										"{{URLCadastro}}"
+									],
+									"path": [
+										"produtos",
+										"8",
+										"categoria"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Novo produto",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2NzA1MDcxMzYsImV4cCI6MTY3MDUxMDczNn0.cFdJTZDSBDxNtNwV-8nm39DGYb9JeZDlGnHRc3kyF98",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"descricao\": \"Fanta\",\r\n    \"preco\": 8,\r\n    \"estoqueminimo\": 5,\r\n    \"estoquemaximo\": 100,\r\n    \"estoqueatual\": 50,\r\n    \"categoria\": {\r\n        \"id\": 8,\r\n        \"descricao\": \"bebidas\"\r\n    }\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{URLCadastro}}/produtos",
+									"host": [
+										"{{URLCadastro}}"
+									],
+									"path": [
+										"produtos"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Atualizar estoque",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2NzA1MDcxMzYsImV4cCI6MTY3MDUxMDczNn0.cFdJTZDSBDxNtNwV-8nm39DGYb9JeZDlGnHRc3kyF98",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"id\": 1,\r\n    \"descricao\": \"Fanta\",\r\n    \"estoqueatual\": 10\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{URLCadastro}}/produtos/atualziarestoque",
+									"host": [
+										"{{URLCadastro}}"
+									],
+									"path": [
+										"produtos",
+										"atualziarestoque"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Excluir Item",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2NzA1MDcxMzYsImV4cCI6MTY3MDUxMDczNn0.cFdJTZDSBDxNtNwV-8nm39DGYb9JeZDlGnHRc3kyF98",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{URLCadastro}}/produtos/3/excluir",
+									"host": [
+										"{{URLCadastro}}"
+									],
+									"path": [
+										"produtos",
+										"3",
+										"excluir"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "clientes",
+					"item": [
+						{
+							"name": "Listar todos",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{URLCadastro}}/clientes",
+									"host": [
+										"{{URLCadastro}}"
+									],
+									"path": [
+										"clientes"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Listar por id",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2NzA1MTU2NDQsImV4cCI6MTY3MDUxOTI0NH0.QIAGhUO6jhQTmjKpApMnbsVFrp-28nUrPEipsDh7I7Q",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:9001/clientes/1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "9001",
+									"path": [
+										"clientes",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Novo cliente",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2NzA1MTU2NDQsImV4cCI6MTY3MDUxOTI0NH0.QIAGhUO6jhQTmjKpApMnbsVFrp-28nUrPEipsDh7I7Q",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"nome\": \"Kelvin\",\r\n    \"tipo\": \"JURIDICA\",\r\n    \"cpfcnpj\": \"01123456789\",\r\n    \"endereco\": [\r\n        {\r\n            \"logradouro\": \"Rua dos testes\",\r\n            \"numero\": \"12\",\r\n            \"complemento\": \"null\",\r\n            \"cep\": \"123456\",\r\n            \"bairro\": \"teste\",\r\n            \"cidade\": \"teste\",\r\n            \"estado\": \"rj\",\r\n            \"tipo\": \"COMERCIAL\"\r\n        }\r\n    ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:9001/clientes",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "9001",
+									"path": [
+										"clientes"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Excluir",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2NzA1MTU2NDQsImV4cCI6MTY3MDUxOTI0NH0.QIAGhUO6jhQTmjKpApMnbsVFrp-28nUrPEipsDh7I7Q",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:9001/clientes/5/excluir",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "9001",
+									"path": [
+										"clientes",
+										"5",
+										"excluir"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "categorias",
+					"item": [
+						{
+							"name": "Listar todos",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2NzA1MTU2NDQsImV4cCI6MTY3MDUxOTI0NH0.QIAGhUO6jhQTmjKpApMnbsVFrp-28nUrPEipsDh7I7Q",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:9001/categorias",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "9001",
+									"path": [
+										"categorias"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Listar por id",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2NzA1MTU2NDQsImV4cCI6MTY3MDUxOTI0NH0.QIAGhUO6jhQTmjKpApMnbsVFrp-28nUrPEipsDh7I7Q",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:9001/categorias/9",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "9001",
+									"path": [
+										"categorias",
+										"9"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Nova categoria",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2NzA1MTU2NDQsImV4cCI6MTY3MDUxOTI0NH0.QIAGhUO6jhQTmjKpApMnbsVFrp-28nUrPEipsDh7I7Q",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"descricao\": \"teste\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:9001/categorias",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "9001",
+									"path": [
+										"categorias"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Excluir",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2NzA1MTU2NDQsImV4cCI6MTY3MDUxOTI0NH0.QIAGhUO6jhQTmjKpApMnbsVFrp-28nUrPEipsDh7I7Q",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:9001/categorias/12/excluir",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "9001",
+									"path": [
+										"categorias",
+										"12",
+										"excluir"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "pedidos",
+			"item": [
+				{
+					"name": "Listar todos",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URLPedido}}/pedidos",
+							"host": [
+								"{{URLPedido}}"
+							],
+							"path": [
+								"pedidos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Listar por Id",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2NzA1MTU2NDQsImV4cCI6MTY3MDUxOTI0NH0.QIAGhUO6jhQTmjKpApMnbsVFrp-28nUrPEipsDh7I7Q",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URLPedido}}/pedidos/14",
+							"host": [
+								"{{URLPedido}}"
+							],
+							"path": [
+								"pedidos",
+								"14"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Novo",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2NzA1MTU2NDQsImV4cCI6MTY3MDUxOTI0NH0.QIAGhUO6jhQTmjKpApMnbsVFrp-28nUrPEipsDh7I7Q",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"cliente\": 3,\r\n    \"produto\": [\r\n        {\r\n            \"item\": 1,\r\n            \"produto\": {\r\n                \"id\": 4,\r\n                \"descricao\": \"Fanta\"\r\n            },\r\n            \"quantidade\": 1,\r\n            \"unitario\": 8,\r\n            \"total\": 8\r\n        },\r\n        {\r\n            \"item\": 2,\r\n            \"produto\": {\r\n                \"id\": 1,\r\n                \"descricao\": \"Coca-Cola\"\r\n            },\r\n            \"quantidade\": 2,\r\n            \"unitario\": 10,\r\n            \"total\": 20\r\n        }\r\n    ],\r\n    \"total\": 28\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URLPedido}}/pedidos",
+							"host": [
+								"{{URLPedido}}"
+							],
+							"path": [
+								"pedidos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Excluir",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2NzA1MTkzMzAsImV4cCI6MTY3MDUyMjkzMH0.aMDvlN_rA2ReIIGIz8_ZEYemJBrv2UW92tezunF-BFk",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{URLPedido}}/pedidos/3/excluir",
+							"host": [
+								"{{URLPedido}}"
+							],
+							"path": [
+								"pedidos",
+								"3",
+								"excluir"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "URLAutenticacao",
+			"value": "https://appcautenticacao.herokuapp.com/"
+		},
+		{
+			"key": "URLCadastro",
+			"value": "https://appcadastroapihorse.herokuapp.com/"
+		},
+		{
+			"key": "URLPedido",
+			"value": "https://apppedidosapihorse.herokuapp.com/"
+		},
+		{
+			"key": "token",
+			"value": ""
+		}
+	]
+}
